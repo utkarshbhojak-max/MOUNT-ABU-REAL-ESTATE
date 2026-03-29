@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M4 28L12 12l8 10 6-8 6 14' fill='none' stroke='%23c47d4a' stroke-width='2.5' stroke-linejoin='round'/></svg>">
+<title>Mount Abu Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&family=Abril+Fatface&display=swap" rel="stylesheet">
+
+<style>
+/* ── TOKENS ── */
+:root {
+  --sand:      #f5ead8;
+  --sand-mid:  #eddfc8;
+  --sand-deep: #e3d0b0;
+  --clay:      #c47d4a;
+  --clay-dark: #9a5a2e;
+  --terra:     #d4623a;
+  --bark:      #3d2410;
+  --bark-mid:  #5c3a1e;
+  --bark-light:#7a5038;
+  --cream:     #fdf8f1;
+  --text-dark: #2a1608;
+  --text-mid:  #5c3a1e;
+  --text-soft: #9a7a5a;
+  --radius:    14px;
+}
+
+/* ── RESET ── */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--cream);
+  color:var(--text-dark);
+  overflow-x:hidden;
+  opacity:0;
+  animation:fadeBody 1s ease forwards;
+}
+@keyframes fadeBody{to{opacity:1;}}
+
+/* noise layer */
+body::after{
+  content:'';position:fixed;inset:0;z-index:999;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:0.35;
+}
+
+/* ambient bg */
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 20%, rgba(196,125,74,0.13) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 75%, rgba(212,98,58,0.09) 0%, transparent 55%);
+  animation:bgShift 14s ease-in-out infinite alternate;
+}
+@keyframes bgShift{
+  0%{background-position:15% 20%, 85% 75%;}
+  100%{background-position:25% 30%, 75% 65%;}
+}
+
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--bark);
+  display:flex;align-items:center;
+  padding:0 2rem;
+  box-shadow:0 4px 24px rgba(61,36,16,0.4);
+  overflow-x:auto;
+}
+.nav::-webkit-scrollbar{display:none;}
+
+.nav-logo{
+  font-family:'Abril Fatface',cursive;
+  font-size:1.1rem;
+  color:var(--clay);
+  white-space:nowrap;
+  margin-right:2rem;
+  flex-shrink:0;
+  letter-spacing:0.03em;
+}
+.nav-logo span{color:var(--sand);}
+
+.nav-tab{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:0 1.2rem;height:54px;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.76rem;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(245,234,216,0.5);
+  text-decoration:none;
+  border-bottom:3px solid transparent;
+  border-top:none;border-left:none;border-right:none;
+  background:transparent;
+  white-space:nowrap;flex-shrink:0;cursor:pointer;
+  transition:color 0.25s,border-color 0.25s,background 0.25s;
+}
+.nav-tab svg{width:13px;height:13px;opacity:0.7;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.nav-tab:hover{color:var(--sand);background:rgba(196,125,74,0.12);border-bottom-color:rgba(196,125,74,0.35);}
+.nav-tab.active{color:var(--clay);border-bottom-color:var(--clay);background:rgba(196,125,74,0.1);}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse 80% 60% at 75% 25%, rgba(196,125,74,0.16) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 10% 80%, rgba(212,98,58,0.09) 0%, transparent 50%),
+    linear-gradient(165deg,#fdf3e4 0%,#f5e8d0 45%,#eddfc8 100%);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:6rem 2rem 5rem;
+  position:relative;overflow:hidden;
+}
+
+/* spinning arcs */
+.arc{position:absolute;border-radius:50%;pointer-events:none;}
+.arc1{width:420px;height:420px;bottom:-130px;left:-130px;border:1.5px solid rgba(196,125,74,0.16);animation:spin 32s linear infinite;}
+.arc2{width:280px;height:280px;top:-70px;right:-70px;border:1px solid rgba(212,98,58,0.12);animation:spin 22s linear infinite reverse;}
+.arc3{width:180px;height:180px;top:35%;left:-50px;border:1px dashed rgba(196,125,74,0.12);}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* mountain deco */
+.hero-mountain{position:absolute;bottom:0;left:0;right:0;pointer-events:none;}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;
+  color:var(--clay-dark);
+  background:rgba(196,125,74,0.1);
+  border:1px solid rgba(196,125,74,0.22);
+  border-radius:40px;padding:6px 18px;
+  margin-bottom:2rem;
+  animation:fadeUp 0.8s ease both;
+}
+.eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--clay);}
+
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,8vw,6.5rem);
+  font-weight:700;line-height:1.0;
+  color:var(--bark);
+  animation:fadeUp 0.9s 0.15s ease both;
+}
+.hero-title em{font-style:italic;color:var(--terra);display:block;font-weight:400;}
+
+.divider-row{
+  display:flex;align-items:center;gap:1rem;
+  margin:1.8rem auto;width:fit-content;
+  animation:fadeUp 0.9s 0.3s ease both;
+}
+.dline{width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--clay));}
+.dline.r{background:linear-gradient(90deg,var(--clay),transparent);}
+.dstar{color:var(--clay);}
+
+.hero-desc{
+  font-size:0.95rem;color:var(--bark-light);
+  line-height:1.9;max-width:520px;
+  animation:fadeUp 0.9s 0.45s ease both;
+}
+
+.badge-row{
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+  margin-top:1.4rem;
+  animation:fadeUp 0.9s 0.55s ease both;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;
+  background:rgba(196,125,74,0.1);
+  border:1px solid rgba(196,125,74,0.22);
+  border-radius:30px;padding:5px 13px;
+  color:var(--clay-dark);
+  transition:background 0.25s,transform 0.2s;
+}
+.badge:hover{background:rgba(196,125,74,0.18);transform:translateY(-2px);}
+.badge svg{width:13px;height:13px;stroke:var(--clay);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+.cta-row{
+  display:flex;gap:12px;margin-top:2.2rem;flex-wrap:wrap;justify-content:center;
+  animation:fadeUp 0.9s 0.65s ease both;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:0.9rem 2.2rem;
+  background:var(--bark);color:var(--sand);
+  font-family:'DM Sans',sans-serif;
+  font-size:0.8rem;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;
+  border-radius:8px;text-decoration:none;border:none;cursor:pointer;
+  transition:background 0.3s,transform 0.2s,box-shadow 0.3s;
+  box-shadow:0 4px 20px rgba(61,36,16,0.22);
+}
+.btn-primary:hover{background:var(--bark-mid);transform:translateY(-2px);box-shadow:0 8px 30px rgba(61,36,16,0.32);}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:0.9rem 2.2rem;
+  background:transparent;color:var(--bark);
+  border:1.5px solid var(--bark);
+  font-family:'DM Sans',sans-serif;
+  font-size:0.8rem;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;
+  border-radius:8px;text-decoration:none;cursor:pointer;
+  transition:all 0.3s;
+}
+.btn-outline:hover{background:var(--bark);color:var(--sand);transform:translateY(-2px);}
+.btn-primary svg,.btn-outline svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+
+.stats-strip{
+  display:flex;gap:0;margin-top:3.5rem;
+  border-top:1px solid rgba(196,125,74,0.18);
+  padding-top:2rem;
+  animation:fadeUp 0.9s 0.8s ease both;
+  flex-wrap:wrap;justify-content:center;
+}
+.stat{flex:1;min-width:110px;text-align:center;padding:0 1.5rem;}
+.stat+.stat{border-left:1px solid rgba(196,125,74,0.14);}
+.stat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--bark);line-height:1;}
+.stat-num span{color:var(--clay);font-size:1.2rem;}
+.stat-lbl{font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-soft);margin-top:4px;}
+
+/* ── SHARED SECTION ── */
+.section{padding:5rem 2rem;max-width:1100px;margin:0 auto;}
+.s-label{font-size:0.62rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--clay);margin-bottom:0.5rem;display:flex;align-items:center;gap:8px;}
+.s-label::before{content:'';width:24px;height:1px;background:var(--clay);}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:500;color:var(--bark);line-height:1.2;margin-bottom:0.5rem;}
+.s-title em{font-style:italic;color:var(--terra);}
+.s-desc{font-size:0.88rem;color:var(--text-soft);line-height:1.85;max-width:520px;margin-bottom:3rem;}
+
+/* warm card */
+.w-card{
+  background:var(--cream);
+  border:1px solid rgba(196,125,74,0.18);
+  border-radius:var(--radius);
+  transition:transform 0.3s,box-shadow 0.3s,border-color 0.3s;
+  position:relative;overflow:hidden;
+}
+.w-card::before{
+  content:'';position:absolute;top:0;left:0;
+  width:4px;height:100%;
+  background:linear-gradient(180deg,var(--clay),var(--terra));
+  opacity:0;transition:opacity 0.3s;
+}
+.w-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(196,125,74,0.16);border-color:rgba(196,125,74,0.38);}
+.w-card:hover::before{opacity:1;}
+
+/* ── SERVICES ── */
+.services-bg{background:var(--sand);padding:5rem 2rem;}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;max-width:1100px;margin:2rem auto 0;}
+.svc-card{padding:1.8rem;}
+.svc-icon{
+  width:50px;height:50px;
+  background:linear-gradient(135deg,rgba(196,125,74,0.15),rgba(212,98,58,0.08));
+  border:1px solid rgba(196,125,74,0.22);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1rem;
+  transition:transform 0.3s;
+}
+.w-card:hover .svc-icon{transform:scale(1.1) rotate(-4deg);}
+.svc-icon svg{width:24px;height:24px;stroke:var(--clay);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.svc-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:500;color:var(--bark);margin-bottom:0.5rem;}
+.svc-desc{font-size:0.82rem;color:var(--text-soft);line-height:1.75;}
+
+/* ── CONTACT ── */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+@media(max-width:700px){.contact-grid{grid-template-columns:1fr;}}
+.cc{display:flex;align-items:flex-start;gap:1rem;padding:1.6rem;}
+.cc-icon{width:46px;height:46px;flex-shrink:0;background:linear-gradient(135deg,rgba(196,125,74,0.14),rgba(212,98,58,0.07));border:1px solid rgba(196,125,74,0.22);border-radius:11px;display:flex;align-items:center;justify-content:center;}
+.cc-icon svg{width:21px;height:21px;stroke:var(--clay);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.cc-lbl{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--clay);margin-bottom:5px;}
+.cc-val{font-size:0.92rem;color:var(--text-dark);line-height:1.55;}
+.cc-val a{color:var(--text-dark);text-decoration:none;transition:color 0.2s;}
+.cc-val a:hover{color:var(--terra);}
+.cc-sub{font-size:0.73rem;color:var(--text-soft);margin-top:3px;}
+
+/* ── WHATSAPP FORM ── */
+.wa-form-section{background:var(--sand-mid);padding:5rem 2rem;}
+.wa-form-inner{max-width:680px;margin:0 auto;}
+.form-row{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+.form-row .finput{flex:1;min-width:160px;}
+.finput{
+  width:100%;padding:0.85rem 1rem;
+  background:var(--cream);
+  border:1px solid rgba(196,125,74,0.25);
+  border-radius:8px;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.88rem;color:var(--text-dark);
+  transition:border-color 0.25s,box-shadow 0.25s;
+  outline:none;
+}
+.finput:focus{border-color:var(--clay);box-shadow:0 0 0 3px rgba(196,125,74,0.12);}
+.finput::placeholder{color:var(--text-soft);}
+textarea.finput{resize:vertical;min-height:100px;margin-bottom:12px;}
+
+/* ── MAP ── */
+.map-section{background:var(--cream);padding:5rem 2rem;}
+.map-wrap{border-radius:16px;overflow:hidden;border:1px solid rgba(196,125,74,0.22);box-shadow:0 8px 40px rgba(61,36,16,0.12);position:relative;}
+.map-wrap iframe{display:block;width:100%;height:380px;border:0;}
+.map-pin{position:absolute;top:1rem;left:1rem;background:var(--bark);color:var(--sand);padding:7px 14px;border-radius:8px;font-size:0.73rem;letter-spacing:0.08em;display:flex;align-items:center;gap:6px;}
+.map-pin svg{width:13px;height:13px;stroke:var(--clay);fill:none;stroke-width:2;}
+.map-open-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:1.2rem;
+  padding:0.75rem 1.6rem;
+  background:var(--bark);color:var(--sand);
+  border-radius:8px;text-decoration:none;
+  font-size:0.78rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+  transition:background 0.25s,transform 0.2s;
+}
+.map-open-btn:hover{background:var(--bark-mid);transform:translateY(-2px);}
+.map-open-btn svg{width:14px;height:14px;stroke:var(--clay);fill:none;stroke-width:2;}
+
+/* ── WA CTA SECTION ── */
+.wa-section{
+  background:linear-gradient(135deg,var(--bark) 0%,var(--bark-mid) 100%);
+  padding:6rem 2rem;text-align:center;position:relative;overflow:hidden;
+}
+.wa-section::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23c47d4a' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.wa-deco{position:absolute;border-radius:50%;border:1px solid rgba(196,125,74,0.08);}
+.wa-inner{position:relative;z-index:1;max-width:580px;margin:0 auto;}
+.wa-tag{display:inline-flex;align-items:center;gap:6px;font-size:0.65rem;letter-spacing:0.28em;text-transform:uppercase;color:rgba(245,234,216,0.45);margin-bottom:1.2rem;}
+.wa-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3rem);font-weight:500;color:var(--sand);line-height:1.15;margin-bottom:1rem;}
+.wa-title em{font-style:italic;color:var(--clay);}
+.wa-desc{font-size:0.85rem;color:rgba(245,234,216,0.55);line-height:1.85;margin-bottom:2rem;}
+.wa-btn{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:1.1rem 2.6rem;
+  background:#25d366;color:#fff;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.86rem;font-weight:500;
+  letter-spacing:0.08em;text-transform:uppercase;
+  border-radius:8px;text-decoration:none;
+  box-shadow:0 6px 28px rgba(37,211,102,0.38);
+  position:relative;overflow:hidden;
+  animation:pulsewa 2.5s ease-in-out infinite;
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.wa-btn::after{
+  content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.25) 50%,transparent 60%);
+  transform:skewX(-15deg);animation:shimmer 2.5s 1s infinite;
+}
+.wa-btn:hover{transform:translateY(-3px);box-shadow:0 12px 42px rgba(37,211,102,0.52);}
+.wa-btn svg{width:22px;height:22px;fill:#fff;flex-shrink:0;}
+@keyframes pulsewa{0%,100%{box-shadow:0 6px 28px rgba(37,211,102,0.38);}50%{box-shadow:0 6px 42px rgba(37,211,102,0.6);}}
+@keyframes shimmer{0%{left:-60%;}100%{left:160%;}}
+
+.wa-preview{
+  margin-top:1.8rem;display:inline-block;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(196,125,74,0.18);
+  border-radius:12px;padding:1rem 1.5rem;
+  font-size:0.78rem;color:rgba(245,234,216,0.5);
+  line-height:1.65;max-width:420px;
+}
+.wa-preview strong{display:block;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,234,216,0.75);margin-bottom:6px;}
+
+/* ── FOOTER ── */
+footer{background:var(--bark);padding:2.5rem 2rem;color:rgba(245,234,216,0.45);font-size:0.72rem;letter-spacing:0.06em;}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:2rem;margin-bottom:2rem;}
+.f-logo{font-family:'Abril Fatface',cursive;font-size:1.4rem;color:var(--sand);display:block;margin-bottom:6px;}
+.f-col-title{font-family:'Playfair Display',serif;font-size:0.9rem;color:var(--clay);margin-bottom:10px;}
+.f-link{display:block;color:rgba(245,234,216,0.45);text-decoration:none;margin-bottom:5px;transition:color 0.2s;}
+.f-link:hover{color:var(--clay);}
+.footer-bottom{border-top:1px solid rgba(196,125,74,0.15);padding-top:1.5rem;text-align:center;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="nav">
+  <div class="nav-logo">Mount<span>Abu</span></div>
+  <a class="nav-tab active" href="#home" onclick="setTab(this)">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </a>
+  <a class="nav-tab" href="#services" onclick="setTab(this)">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    Services
+  </a>
+  <a class="nav-tab" href="#contact" onclick="setTab(this)">
+    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 011 1.18 2 2 0 013 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6z"/></svg>
+    Contact
+  </a>
+  <a class="nav-tab" href="#location" onclick="setTab(this)">
+    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    Location
+  </a>
+  <a class="nav-tab" href="#whatsapp" onclick="setTab(this)">
+    <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+    WhatsApp
+  </a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="home">
+  <div class="arc arc1"></div>
+  <div class="arc arc2"></div>
+  <div class="arc arc3"></div>
+
+  <div class="eyebrow">Trusted in Mount Abu Since 1995</div>
+
+  <h1 class="hero-title">
+    Mount Abu
+    <em>Real Estate</em>
+  </h1>
+
+  <div class="divider-row">
+    <div class="dline"></div>
+    <span class="dstar">✦</span>
+    <div class="dline r"></div>
+  </div>
+
+  <p class="hero-desc">
+    Local experts connecting buyers &amp; sellers in Mount Abu — homes, plots, holiday properties — 
+    with transparent pricing and end-to-end support.
+  </p>
+
+  <div class="badge-row">
+    <div class="badge">
+      <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/></svg>
+      Trusted
+    </div>
+    <div class="badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      30+ Years Experienced
+    </div>
+    <div class="badge">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Top Rated
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <a href="#services" class="btn-primary">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Explore Services
+    </a>
+    <a href="#whatsapp" class="btn-outline">
+      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+      Chat on WhatsApp
+    </a>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stat"><div class="stat-num">30<span>+</span></div><div class="stat-lbl">Years in Business</div></div>
+    <div class="stat"><div class="stat-num">5.0<span>★</span></div><div class="stat-lbl">Top Rated</div></div>
+    <div class="stat"><div class="stat-num">500<span>+</span></div><div class="stat-lbl">Happy Clients</div></div>
+    <div class="stat"><div class="stat-num">Mon–Sat</div><div class="stat-lbl">3 PM – 10 PM</div></div>
+  </div>
+
+  <svg class="hero-mountain" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 90L200 35L360 75L560 18L760 60L960 30L1150 65L1310 40L1440 55V90Z" fill="rgba(196,125,74,0.07)"/>
+    <path d="M0 90L170 60L320 82L500 42L680 72L880 36L1070 68L1260 50L1440 70V90Z" fill="rgba(196,125,74,0.05)"/>
+  </svg>
+</section>
+
+<!-- ══ SERVICES ══ -->
+<div class="services-bg" id="services">
+  <div style="max-width:1100px;margin:0 auto;">
+    <p class="s-label reveal">What We Offer</p>
+    <h2 class="s-title reveal">Our <em>Services</em></h2>
+    <p class="s-desc reveal">From finding your dream home to managing your investment — we handle it all.</p>
+  </div>
+  <div class="services-grid">
+
+    <div class="w-card svc-card reveal">
+      <div class="svc-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div class="svc-name">Buy &amp; Sell</div>
+      <div class="svc-desc">End-to-end support for buying and selling properties — legal checks, paperwork, and negotiation handled by experts.</div>
+    </div>
+
+    <div class="w-card svc-card reveal">
+      <div class="svc-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+      </div>
+      <div class="svc-name">Rentals &amp; Management</div>
+      <div class="svc-desc">Short-term and long-term rentals, guest management, and maintenance — we handle your property so you don't have to.</div>
+    </div>
+
+    <div class="w-card svc-card reveal">
+      <div class="svc-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="svc-name">Valuation &amp; Advisory</div>
+      <div class="svc-desc">Accurate market valuations and investment guidance for Mount Abu properties — 30 years of local expertise at your service.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ CONTACT ══ -->
+<section class="section" id="contact">
+  <p class="s-label reveal">Get In Touch</p>
+  <h2 class="s-title reveal">Contact <em>Details</em></h2>
+  <p class="s-desc reveal">Reach us Monday to Saturday, 3 PM – 10 PM. Sundays — all day!</p>
+
+  <div class="contact-grid">
+
+    <div class="w-card cc reveal">
+      <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div>
+        <div class="cc-lbl">Owner / Agent</div>
+        <div class="cc-val">Manoj Bhojak</div>
+        <div class="cc-sub">Senior Property Consultant · 30+ yrs</div>
+      </div>
+    </div>
+
+    <div class="w-card cc reveal">
+      <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 011 1.18 2 2 0 013 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6z"/></svg></div>
+      <div>
+        <div class="cc-lbl">Phone</div>
+        <div class="cc-val">
+          <a href="tel:+919414291529">+91 94142 91529</a><br>
+          <a href="tel:+917297031591">+91 72970 31591</a>
+        </div>
+        <div class="cc-sub">Mon–Sat 3 PM–10 PM · Sun all day</div>
+      </div>
+    </div>
+
+    <div class="w-card cc reveal">
+      <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      <div>
+        <div class="cc-lbl">Email</div>
+        <div class="cc-val"><a href="mailto:manojbhojakproperty@gmail.com">manojbhojakproperty@gmail.com</a></div>
+        <div class="cc-sub">We reply within a few hours</div>
+      </div>
+    </div>
+
+    <div class="w-card cc reveal">
+      <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div>
+        <div class="cc-lbl">Office Address</div>
+        <div class="cc-val">HPJF+97P, MDR60</div>
+        <div class="cc-sub">Behind Old Check Post, Saint Mary's, Mount Abu – 307501, Rajasthan</div>
+      </div>
+    </div>
+
+    <div class="w-card cc reveal">
+      <div class="cc-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+      <div>
+        <div class="cc-lbl">Property Types</div>
+        <div class="cc-val">Homes · Plots · Villas</div>
+        <div class="cc-sub">Residential &amp; Holiday Properties</div>
+      </div>
+    </div>
+
+    <div class="w-card cc reveal">
+      <div class="cc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div>
+        <div class="cc-lbl">Working Hours</div>
+        <div class="cc-val">Mon – Sat: 3 PM – 10 PM</div>
+        <div class="cc-sub">Sunday: All Day (Open)</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ WHATSAPP FORM ══ -->
+<div class="wa-form-section" id="whatsapp-form">
+  <div class="wa-form-inner">
+    <p class="s-label reveal" style="justify-content:center;">Send a Message</p>
+    <h2 class="s-title reveal" style="text-align:center;">Chat on <em>WhatsApp</em></h2>
+    <p class="s-desc reveal" style="margin:0 auto 2rem;text-align:center;">Fill in your details below — it opens WhatsApp with your message pre-filled and ready to send.</p>
+
+    <form class="reveal" onsubmit="sendWA(event)">
+      <div class="form-row">
+        <input class="finput" id="waName" placeholder="Your Name" required>
+        <input class="finput" id="waContact" placeholder="Your Contact Number" required>
+      </div>
+      <textarea class="finput" id="waMsgBox" placeholder="Type your message or inquiry...">Hi, I am interested in a property at Mount Abu. Please share available listings and pricing details. Thank you!</textarea>
+      <div style="text-align:center;margin-top:0.5rem;">
+        <button class="btn-primary" type="submit" style="font-size:0.88rem;padding:1rem 2.5rem;">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#fff;flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Open WhatsApp
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ══ MAP ══ -->
+<div class="map-section" id="location">
+  <div style="max-width:1100px;margin:0 auto;">
+    <p class="s-label reveal">Find Us</p>
+    <h2 class="s-title reveal">We're in the <em>Heart of Mount Abu</em></h2>
+    <p class="s-desc reveal">HPJF+97P, MDR60 — Behind Old Check Post, Saint Mary's, Mount Abu, Rajasthan 307501</p>
+
+    <div class="map-wrap reveal">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3644.0267497120615!2d72.72132731500055!3d24.580625084185794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39432b0024292cd7%3A0x0ee1a18513ccdf81!2sManoj%20bhojak&#39;s%20house!5e0!3m2!1sen!2sin!4v1711728000000!5m2!1sen!2sin"
+        allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Manoj Bhojak Property — Mount Abu">
+      </iframe>
+      <div class="map-pin">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Mount Abu, Rajasthan 307501
+      </div>
+    </div>
+
+    <div style="margin-top:1.2rem;">
+      <a class="map-open-btn reveal"
+        href="https://maps.google.com/?cid=1072314679714176897"
+        target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Open in Google Maps
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WA DIRECT CTA ══ -->
+<section class="wa-section" id="whatsapp">
+  <div class="wa-deco" style="width:360px;height:360px;top:-120px;right:-100px;"></div>
+  <div class="wa-deco" style="width:260px;height:260px;bottom:-90px;left:-90px;"></div>
+
+  <div class="wa-inner">
+    <div class="wa-tag reveal">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(196,125,74,0.55)"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+      Direct Connect
+    </div>
+    <h2 class="wa-title reveal">One Tap,<br><em>We're Here</em></h2>
+    <p class="wa-desc reveal">Opens WhatsApp instantly with a ready-to-send message. We typically respond within minutes.</p>
+
+    <a class="wa-btn reveal"
+      href="https://wa.me/9414291529?text=Namaste%20%F0%9F%99%8F%20I%20am%20interested%20in%20a%20property%20at%20Mount%20Abu.%20Could%20you%20please%20share%20available%20listings%2C%20pricing%20and%20site%20visit%20options%3F%20Thank%20you!"
+      target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp Us Now
+    </a>
+
+    <div class="wa-preview reveal">
+      <strong>Pre-filled message</strong>
+      Namaste 🙏 I am interested in a property at Mount Abu. Could you please share available listings, pricing and site visit options? Thank you!
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <span class="f-logo">MountAbu</span>
+      <div style="color:rgba(245,234,216,0.4);font-size:0.78rem;line-height:1.7;max-width:260px;">
+        Local experts connecting buyers &amp; sellers in Mount Abu since 1995.
+      </div>
+    </div>
+    <div>
+      <div class="f-col-title">Contact</div>
+      <a class="f-link" href="tel:+919414291529">+91 94142 91529</a>
+      <a class="f-link" href="tel:+917297031591">+91 72970 31591</a>
+      <a class="f-link" href="mailto:manojbhojakproperty@gmail.com">manojbhojakproperty@gmail.com</a>
+    </div>
+    <div>
+      <div class="f-col-title">Hours</div>
+      <div class="f-link">Mon – Sat: 3 PM – 10 PM</div>
+      <div class="f-link">Sunday: All Day Open</div>
+    </div>
+    <div>
+      <div class="f-col-title">Follow Us</div>
+      <a class="f-link" href="#">Instagram</a>
+      <a class="f-link" href="#">Facebook</a>
+      <a class="f-link" href="https://wa.me/9414291529" target="_blank">WhatsApp</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 <strong style="color:var(--clay);">Mount Abu Real Estate</strong> · All Rights Reserved · HPJF+97P, MDR60, Mount Abu, Rajasthan 307501</p>
+    <p style="margin-top:6px;"><a href="#" style="color:rgba(245,234,216,0.4);text-decoration:none;">Privacy Policy</a> &nbsp;|&nbsp; <a href="#" style="color:rgba(245,234,216,0.4);text-decoration:none;">Terms of Service</a></p>
+  </div>
+</footer>
+
+<script>
+  // Tab active state on click
+  function setTab(el) {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Scroll spy
+  const ids = ['home','services','contact','location','whatsapp'];
+  window.addEventListener('scroll', () => {
+    let cur = 'home';
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 80) cur = id;
+    });
+    document.querySelectorAll('.nav-tab').forEach(t => {
+      t.classList.toggle('active', t.getAttribute('href') === '#' + cur);
+    });
+  });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // WhatsApp form
+  function sendWA(e) {
+    e.preventDefault();
+    const name = document.getElementById('waName').value;
+    const contact = document.getElementById('waContact').value;
+    const msg = document.getElementById('waMsgBox').value;
+    const text = `Hi, my name is ${name}, my contact is ${contact}. ${msg}`;
+    window.open('https://wa.me/9414291529?text=' + encodeURIComponent(text), '_blank');
+  }
+</script>
+</body>
+</html>
